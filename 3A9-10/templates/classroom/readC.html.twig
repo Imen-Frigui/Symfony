@@ -1,0 +1,20 @@
+<h1>La liste des classes </h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Delete</th>
+        <th>Update</th>
+    </tr>
+    {%for k in c %}
+    <tr>
+        <td>{{k.id}}</td>
+        <td>{{k.name}}</td>
+        <td><form action="{{path('app_deleteC',{'id':k.id}) }}">
+            <button>Delete</button></form></td>
+        <td><form action="{{path('app_updateC',{'id':k.id}) }}">
+                <button>Update</button></form></td>
+    </tr>
+    {%endfor%}
+
+</table>
