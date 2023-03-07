@@ -10,6 +10,7 @@
         <td>{{i.id}}</td>
         <td>{{i.name}}</td>
         <td><a href="{{path('suppC',{'id':i.id}) }}">Supprimer</a></td>
+        <td><a href="{{path('updateClassroom',{'id':i.id}) }}">Modifier</a></td>
 
     </tr>
     {% endfor %}

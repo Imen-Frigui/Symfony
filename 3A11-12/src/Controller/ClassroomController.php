@@ -57,4 +57,20 @@ $form=$this->createForm(ClassroomFormType::class,$classroom);
               return $this->renderForm("classroom/addClassroom.html.twig",
                        array("f"=>$form));
                 }
+
+
+        #[Route('/updateC/{id}', name: 'updateClassroom')]
+        public function modifierClassroom(ManagerRegistry $doctrine,Request $request,$id,ClassroomRepository $r)
+                               {
+              { //récupérer la classroom à modifier
+                $classroom=$r->find($id);
+            $form=$this->createForm(ClassroomFormType::class,$classroom);
+             $form->handleRequest($request);
+             if($form->isSubmitted()){
+            $em =$doctrine->getManager() ;
+                 $em->flush();
+                                       return $this->redirectToRoute("app_afficheC");}
+                              return $this->renderForm("classroom/addClassroom.html.twig",
+                                       array("f"=>$form));
+                                }
 }
