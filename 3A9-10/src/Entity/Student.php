@@ -18,6 +18,9 @@ class Student
     #[ORM\ManyToOne(inversedBy: 'students')]
     private ?Classroom $idClassroom = null;
 
+    #[ORM\Column]
+    private ?float $moyenne = null;
+
     public function getNsc(): ?int
     {
         return $this->nsc;
@@ -48,6 +51,18 @@ class Student
     public function setIdClassroom(?Classroom $idClassroom): self
     {
         $this->idClassroom = $idClassroom;
+
+        return $this;
+    }
+
+    public function getMoyenne(): ?float
+    {
+        return $this->moyenne;
+    }
+
+    public function setMoyenne(float $moyenne): self
+    {
+        $this->moyenne = $moyenne;
 
         return $this;
     }
