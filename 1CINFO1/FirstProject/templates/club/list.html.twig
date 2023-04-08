@@ -20,10 +20,10 @@
         <td>{{i.Titre | upper}}</td>
         <td>{{i.Description}}</td>
         <td>{{i.nb_participants}}</td>
-        <td><form action="{{path('detailF',{'titre':i.Titre}) }}">
+        <td><form action="{{path('detailF',{'titre':i.Titre, 'ref':i.ref}) }}">
         <button>Participer</button></form>
         <!--   ou bien aussi autre méthode-->
-        <a href="{{path('detailF',{'titre':i.Titre}) }}">participer</a></td>
+        <a href="{{path('detailF',{'titre':i.Titre,'ref':i.ref}) }}">participer</a></td>
     </tr>
     {% endif %}
     {% endfor %}
