@@ -4,9 +4,13 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Classroom;
 use App\Repository\ClassroomRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use App\Form\ClassroomFormType;
+
 
 class ClassroomController extends AbstractController
 {
@@ -39,11 +43,32 @@ class ClassroomController extends AbstractController
      ]);
  }   
 
- #[Route('/supprimerC/{id', name: 'supprimerC')]
-    public function supprimerC($id): Response
+ #[Route('/supprimerC/{id}', name: 'supprimerC')]
+    public function supprimerC($id,ClassroomRepository $r): Response
     {
-        return $this->render('classroom/index.html.twig', [
-            'controller_name' => 'ClassroomController',
-        ]);
+        //Récupérer classroom à supprimer
+        $classroom=$r->find($id);
+        //Action de suppression
+     //récupérer entity manager
+     $em=$this->getDoctrine()->getManager();
+     //supprimer
+     $em->remove($classroom);
+     $em->flush();
+        return $this->redirectToRoute('afficheClassroom');
     }
+
+    #[Route('/addclassroom', name: 'addclassroom')]
+    public function addclassroom(ManagerRegistry $doctrine,Request $request){
+  $classroom= new Classroom();
+  $form=$this->createForm(ClassroomFormType::class,$classroom);
+  $form->handleRequest($request);
+        if($form->isSubmitted()){
+            $em =$doctrine->getManager() ;
+            $em->persist($classroom);
+            $em->flush();
+            return $this->redirectToRoute("afficheC");}
+        return $this->renderForm("classroom/addClassroom.html.twig",
+            array("f"=>$form));
+     }
+
 }
