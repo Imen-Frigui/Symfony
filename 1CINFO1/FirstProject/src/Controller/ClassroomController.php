@@ -71,4 +71,20 @@ class ClassroomController extends AbstractController
             array("f"=>$form));
      }
 
+
+     #[Route('/modifierclassroom/{id}', name: 'ModifierC')]
+    public function modifierclassroom(ManagerRegistry $doctrine,Request $request,ClassroomRepository $r,$id)
+   {
+    //Récupérer classroom à modifier
+   $classroom=$r->find($id);
+  $form=$this->createForm(ClassroomFormType::class,$classroom);
+  $form->handleRequest($request);
+        if($form->isSubmitted()){
+            $em =$doctrine->getManager() ;
+            $em->flush();
+            return $this->redirectToRoute("afficheC");}
+        return $this->renderForm("classroom/addClassroom.html.twig",
+            array("f"=>$form));
+     }
+
 }

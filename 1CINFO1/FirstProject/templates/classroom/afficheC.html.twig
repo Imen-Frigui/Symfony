@@ -4,12 +4,14 @@
         <th>ID</th>
         <th>Name</th>
         <th>Supprimer</th>
+        <th>Modifier</th>
     </tr>
     {% for i in c %}
     <tr>
         <td>{{i.id}}</td>
         <td>{{i.Name}}</td>
         <td><a href="{{path('supprimerC',{'id':i.id}) }}"> Supprimer</td>
+        <td><a href="{{path('ModifierC',{'id':i.id}) }}"> Modifier</td>
     <tr>
     {% endfor%}
 
