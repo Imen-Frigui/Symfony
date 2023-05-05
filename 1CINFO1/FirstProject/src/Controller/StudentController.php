@@ -10,6 +10,7 @@ use App\Form\StudentFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Student;
+use App\Form\SearchStudentFormType;
 
 class StudentController extends AbstractController
 {
@@ -45,4 +46,36 @@ $form->handleRequest($request);
      return $this->renderForm("student/addStudent.html.twig",
          array("f"=>$form));
   }
+
+
+  #[Route('/afficheStudentEmail', name: 'afficheStudentEmail')]
+  public function afficheStudentEmail(StudentRepository $r): Response
+  {
+     //utiliser la fonction findByEmail()
+      $students=$r->findByEmail();
+      return $this->render('student/afficheSemail.html.twig', [
+          's' => $students,
+      ]);
+  } 
+
+  #[Route('/searchStudentByAVG', name: 'searchStudentByAVG')]
+  public function searchStudentByAVG(Request $request,StudentRepository $student){
+
+          $students= $student->findByEmail();
+          $searchForm = $this->createForm(SearchStudentFormType::class);
+          $searchForm->handleRequest($request);
+          if ($searchForm->isSubmitted()) {
+          //récupérer le contenu de l'input min
+              $minMoy=$searchForm['min']->getData();
+              $maxMoy=$searchForm['max']->getData();
+              $resultOfSearch = $student->searchByAVG($minMoy,$maxMoy);
+              return $this->renderForm('student/searchStudentByAVG.html.twig', [
+                  'Students'=>$resultOfSearch,
+                  'searchStudentByAVG' => $searchForm,]);
+          }
+return $this->renderForm('student/searchStudentByAVG.html.twig',
+array('Students' => $students,'searchStudentByAVG'=>$searchForm,
+              ));
+
+}
 }
