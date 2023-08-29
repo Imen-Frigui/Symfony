@@ -1,0 +1,20 @@
+<h1>Search Student By AVG</h1>
+{{ form(searchStudentByAVG) }}
+<table border="1">
+<tr>
+  <td>NSC</td>
+  <td>Email</td>
+  <td>Moyenne</td>
+  <td>Classroom</td>
+</tr>
+
+{% for student in Students %}
+<tr>
+  <td>{{student.nsc}}</td>
+  <td>{{student.email}}</td>
+  <td>{{student.moyenne}}</td>
+  <td>{{student.idclassroom.name}}</td>
+</tr>
+{% endfor %}
+</table>
+
